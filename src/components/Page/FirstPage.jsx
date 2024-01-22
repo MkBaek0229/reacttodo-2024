@@ -41,7 +41,9 @@ function FirstPage() {
           </button>
           <hr />
           {visible ? <Signup /> : <Login onLogin={handleLogin} />}
+          <h1>현재 로그인 기능 까지만 구현 이용하고 싶을시 아이디: kim 비밀번호 : 1234</h1>
         </div>
+        
       )}
     </div>
   );
