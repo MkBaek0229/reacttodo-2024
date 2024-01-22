@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import React from "react";
 
@@ -17,14 +18,38 @@ function Signup() {
     const [isPassword, setIsPassword] = React.useState(false);
     const [isPhone, setIsPhone] = React.useState(false);
   
+    const [signupSuccess, setSignupSuccess] = React.useState(false);
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      alert("회원가입 완료")
-      
+      await CreateMember(name, password, phone);
+      setSignupSuccess(true);
+
     }
-    
+    const CreateMember = async (name, password, callnum) => {
+      try {
+          if (!name.trim() && !password.trim() && !callnum.trim()) {
+              // 입력 값이 공백인 경우 요청을 보내지 않음
+              return;
+          }
+
+          // POST request to insert data
+          await axios.post(
+              'https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/signup',
+              {  name, password, callnum },
+              {
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+              }
+          );
+
+      } catch (error) {
+          // Handle error if needed
+          console.error('Error performing actions:', error);
+      }
+  };
+
     const onChangeName = (e) => {
         const currentName = e.target.value;
         setName(currentName);
@@ -75,9 +100,6 @@ function Signup() {
         }
       };
      
-   
-
-  
 
     return (
         <>
@@ -101,6 +123,7 @@ function Signup() {
                 <p className="message"> {phoneMessage} </p>
             </div>
             <button type="submit">가입</button>
+            {signupSuccess && <p>회원가입이 완료되었습니다!</p>}
         </form>
         </>
      );

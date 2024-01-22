@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 
-function TodoWrite({ setTodos }) {
+function TodoWrite({ username, setTodos }) {
     const [text, setText] = useState("");
 
     const onInsert = async (text) => {
@@ -13,7 +13,7 @@ function TodoWrite({ setTodos }) {
 
             // POST request to insert data
             await axios.post(
-                'https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/kim/todos',
+                `https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/${username}/todos`,
                 { contents: text },
                 {
                     headers: {
@@ -23,7 +23,7 @@ function TodoWrite({ setTodos }) {
             );
 
             // GET request to fetch updated data
-            const response = await axios.get('https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/kim/todos');
+            const response = await axios.get(`https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/${username}/todos`);
             setTodos(response.data.data);
         } catch (error) {
             // Handle error if needed
