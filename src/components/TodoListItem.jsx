@@ -10,6 +10,8 @@ function TodoListItem({ username, todo, setTodos }) {
     
             // 업데이트된 데이터를 서버에서 가져오는 GET 요청
             const response = await axios.get(`https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/${username}/todos`);
+           
+            // setTodos를 호출하는 위치를 수정
             setTodos(response.data.data);
     
         } catch (error) {

@@ -33,22 +33,32 @@ function Signup() {
               return;
           }
 
-          // POST request to insert data
-          await axios.post(
-              'https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/signup',
-              {  name, password, callnum },
-              {
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-              }
+          const response = await axios.post(
+            'https://todoapp-spring-brook-5982-little-grass-565-silent-shape-3149.fly.dev/signup',
+            {  username: name, password, callnum },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
           );
+          console.log(response.data); // 서버 응답을 콘솔에 출력
+          
 
-      } catch (error) {
-          // Handle error if needed
-          console.error('Error performing actions:', error);
-      }
-  };
+    // 서버 응답에 따른 처리 추가
+    if (response.data.resultCode === 'S-1') {
+      // 회원가입 성공
+      setSignupSuccess(true);
+    } else {
+      // 회원가입 실패
+      alert(`회원가입 실패: ${response.data.msg}`);
+    }
+  } catch (error) {
+    // Handle error if needed
+    console.error('Error performing actions:', error);
+    alert('서버 에러가 발생했습니다.');
+  }
+};
 
     const onChangeName = (e) => {
         const currentName = e.target.value;
