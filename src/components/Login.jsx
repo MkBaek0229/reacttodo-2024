@@ -4,12 +4,14 @@ import axios from "axios";
 import TodoPage from "./Page/TodoPage";
 
 function Login() {
+  // 회원이름 
   const [username, setUsername] = useState("");
+  // 회원의 비밀번호
   const [password, setPassword] = useState("");
+  // True라면 로그아웃 화면을 보여주고 false일땐 로그인 화면을 보여줌
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [Todovisible, setTodovisible] = useState(false);
-  const [host, setHost] = useState(""); // 추가
 
+  // 로그인을 시도하면 form 기본전송을 e.preventDefault()을 통해 막고 axios를 통해 내가 배포해둔 API주소로 로그인 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,8 +25,6 @@ function Login() {
       // 로그인 성공 여부를 확인하고 상태 업데이트
       if (response.data.resultCode === "S-1") {
         setIsAuthenticated(true);
-        setHost(response.data.data.host);
-        setTodovisible(!Todovisible);
       } else {
         // 로그인 실패 시에 대한 처리
         console.error("로그인 실패:", response.data.msg);
@@ -34,15 +34,19 @@ function Login() {
       alert("존재하지 않는 이름 혹은 비밀번호입니다.")
     }
   };
-
+ // 로그아웃 시 필요한 동작
   const handleLogout = () => {
-    // 로그아웃 시 필요한 동작을 수행합니다.
     setIsAuthenticated(false);
-    setTodovisible(false);
     setUsername(""); // 로그아웃 시에 username을 초기화
     setPassword(""); // 로그아웃 시에 password를 초기화
   };
 
+// 로그인 입력창에 입력한값이 올바르지않아 지우고싶을때 버튼눌러서 입력 초기화
+  const inputreset = () => {
+    setUsername(""); // username을 초기화
+    setPassword(""); // password를 초기화
+  }
+  
   return (
     <>
       {isAuthenticated ? (
@@ -62,7 +66,7 @@ function Login() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              {username && <button>X</button>}
+              {username && <button onClick={inputreset}>X</button>}
             </div>
 
             <div className="form-el">
@@ -74,15 +78,14 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {password && <button>X</button>}
+              {password && <button onClick={inputreset}>X</button>}
             </div>
             <button type="submit">
-              {Todovisible ? "로그아웃" : "로그인"}
+              로그인
             </button>
           </form>
         </>
       )}
-      <h3>{host}</h3>
       {isAuthenticated && <TodoPage username={username} />}
     </>
   );

@@ -6,8 +6,11 @@ import Login from "../Login";
 import TodoPage from "./TodoPage";
 
 function FirstPage() {
+  // visible이 True일때는 로그인창을 false일떄는 회원가입창을 보여줌
   const [visible, setVisible] = useState(false);
+  // 로그인을 하게되면 로그인 창을 보여주도록 함
   const [loggedIn, setLoggedIn] = useState(false);
+  // 로그인 시도시 입력창에 입력된 이름을 검증하고자 저장함
   const [username, setUsername] = useState("");
 
   const toggleVisibility = () => {
